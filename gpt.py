@@ -33,5 +33,6 @@ for input_message in input_messages:
     print(f'ChatGPT: {chat_response}')
     conv_history.append({"role": "assistant", "content": chat_response})
 
-print("="*80)
-print(conv_history)
+print("="*80\n Output:)
+print(conv_history[-1]["content"], end="")
+html = conv_history[-1]["content"]
