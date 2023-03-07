@@ -7,9 +7,8 @@ from youtube_transcript_api import YouTubeTranscriptApi as yt
 
 class Script:
     
-    def __init__(self, url):
-        self.url_parts = url.split("v=")
-        self.vcode = self.url_parts[-1]
+    def __init__(self, vcode):
+        self.vcode = vcode
         self.script_list = []
         self.script = ""
     
