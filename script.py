@@ -12,7 +12,7 @@ class Script:
         self.vcode = self.url_parts[-1]
         self.script_list = []
         self.script = ""
-        
+    
     #to get a dictionary of the script from the video using youtube api
     def get_script_dict(self):
         self.script_dict = yt.get_transcript(self.vcode, languages=["en"])
