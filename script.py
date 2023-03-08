@@ -15,7 +15,6 @@ class Script:
     #to get a dictionary of the script from the video using youtube api
     def get_script_dict(self):
         self.script_dict = yt.get_transcript(self.vcode, languages=["en"])
-        print("script_dict is done")
         return self.script_dict
     
     #extract only words from the dictionry, and add them into a list
@@ -25,18 +24,14 @@ class Script:
         for i in range(0, len(self.dict)):
             self.text = self.dict[i]["text"]
             self.script_list.append(self.text)
-            print(self.script_list)
-        print("script_list is done")
         return self.script_list
     
     #aggregate all items in the list to make a one string
     def get_script_string(self):
-        for script in self.get_script_list():
-            self.script = self.script + script
-        print("script_string is done")
+        self.script = "".join(self.get_script_list())
+        # self.script.replace("\n", " ")
         return self.script
 
 if __name__ == "__main__":
-    url = input("input url and press enter:")
-    script = Script(url=url).get_script_string()
-    print(script)
+    vcode = input("input video code and press enter:") #e9-l34TcV_U
+    script = Script(vcode=vcode).get_script_string()
