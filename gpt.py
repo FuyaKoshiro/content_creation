@@ -15,8 +15,7 @@ class Gpt:
     def __init__(self, script):
         self.script = script
         self.input_messages = [
-            {"role": "user", "content": f"extract phrases and words that might be difficult for non-native speakers from this script: '{script}'"},
-            {"role": "user", "content": "can you make a HTML table with phrases and explanation in Japanese as columns?"},
+            {"role": "user", "content": f"extract phrases and words that might be difficult for non-native speakers from this script. Each must be less than 4 words. And then make a HTML table of them. The columns need to be phrases and explanation in Japnese. script is: '{script}'"},
         ]
         self.conv_history = []
         self.completion = None
