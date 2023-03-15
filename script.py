@@ -1,9 +1,6 @@
 #return youtube script
 
 from youtube_transcript_api import YouTubeTranscriptApi as yt
- 
-#assume inputing only 1 url everytime.
-#in case the script is too long, you need to split them into several pieces, and get together later
 
 class Script:
     

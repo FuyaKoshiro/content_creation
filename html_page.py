@@ -3,6 +3,8 @@
 #add css and javascript template
 #return the page
 
+
+#need to fix the layout. any method to fix this??
 class Html:
 
     def __init__(self, html, vcode):

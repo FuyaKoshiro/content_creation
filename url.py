@@ -8,7 +8,7 @@ class Vcode:
         self.video_urls = []
 
     def get_vcode(self):
-        self.videos = scrapetube.get_channel(channel_url=self.channel_url, limit=10) #10 is just for a test
+        self.videos = scrapetube.get_channel(channel_url=self.channel_url, limit=2) #10 is just for a test
         for video in self.videos:
             self.video_urls.append(video["videoId"])
         return self.video_urls
