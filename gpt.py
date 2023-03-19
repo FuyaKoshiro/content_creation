@@ -3,19 +3,29 @@
 #ask gpt to create the html table component
 #return the html table component
 
+
+
+#memo
+#python should generate a list of things. and then iterate to add strings as table data
+
 import os
 import openai
 
 key = "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"
 openai.api_key = key
 
-#need to make them into a class to import some variables into another file  
+#need to make them into a class to import some variables into another file 
+#need to do a conversation to output two different list in a row 
 
 class Gpt:
     def __init__(self, script):
         self.script = script
         self.input_messages = [
-            {"role": "user", "content": f"extract phrases and words that might be difficult for non-native speakers from this script. Each must be less than 4 words. And then make a HTML table of them. The columns need to be phrases and explanation in Japnese. script is: '{script}'"},
+            #{"role": "system", "content": "return only python snippets from now."},
+            {"role": "user", "content": f"can you make a list of expressions that might be hard for non-native English speakers from the script in python?\nthe script is {script}."},
+            #{"role": "user", "content": script},
+            {"role": "user", "content": "make a python list of these phrases and words. \nOutput should look like: \n'phrases_list = ['phrase_1', 'phrase_2',...]'"},
+            #{"role": "user", "content": "make a python list of the meaning of these phrases and words \nOutput should look like: \n'meaning_list = ['meaning_1', 'meaning_2',...]'"}
         ]
         self.conv_history = []
         self.completion = None
@@ -29,10 +39,13 @@ class Gpt:
               model="gpt-3.5-turbo",
               messages=self.conv_history
               )
+          print(f"input_message is: \n{input_message['content']}\n", "="*80)
           self.chat_response = self.completion.choices[0].message.content
+          print(f"chat_reponse is: \n{self.chat_response}\n", "="*80)
           self.conv_history.append({"role": "assistant", "content": self.chat_response})
-       self.html = self.conv_history[-1]["content"]
-       return self.html
+       self.phrase_list = self.conv_history[-1]["content"]
+       return self.phrase_list
+    #the final output of this function should be two lists.
 
 if __name__ == "__main__":
     #need to add a script
@@ -103,6 +116,6 @@ than what they weren’t,the Middle Ages became
 a ground for dueling ideas—fueling more fantasy than fact.
     """
     gpt = Gpt(script=script)
-    print("="*80, "Output:")
-    html = gpt.get_answer()
-    print(html)
+    phrase_list = gpt.get_answer()[0]
+    meaning_list = gpt.get_answer()[1]
+    print(phrase_list)
