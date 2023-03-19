@@ -30,7 +30,7 @@ class Html:
 if __name__ == "__main__":
     phrase_list = ["Hello", "Good morning"]
     meaning_list = ["こんにちは", "おはようございます"]
-    vcode = "X7xOEez75B0"
+    vcode = "X7xOEez75B0" #test but acutual video code
     v_title = "test title"
     h = Html(phrase_list, meaning_list, vcode, v_title)
     h.make_page()
