@@ -10,6 +10,7 @@
 
 import os
 import openai
+import re
 
 key = "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"
 openai.api_key = key
@@ -22,30 +23,42 @@ class Gpt:
         self.script = script
         self.input_messages = [
             #{"role": "system", "content": "return only python snippets from now."},
-            {"role": "user", "content": f"can you make a list of expressions that might be hard for non-native English speakers from the script in python?\nthe script is {script}."},
+            {"role": "user", "content": f"can you make a list of phrases and words that might be hard for non-native English speakers from the script? and make a python list of these phrases and words. \nOutput should look like: \n'phrases_list = ['phrase_1', 'phrase_2',...]' \nthe script is {script}."},
             #{"role": "user", "content": script},
-            {"role": "user", "content": "make a python list of these phrases and words. \nOutput should look like: \n'phrases_list = ['phrase_1', 'phrase_2',...]'"},
+            #{"role": "user", "content": "make a python list of these phrases and words. \nOutput should look like: \n'phrases_list = ['phrase_1', 'phrase_2',...]'"},
             #{"role": "user", "content": "make a python list of the meaning of these phrases and words \nOutput should look like: \n'meaning_list = ['meaning_1', 'meaning_2',...]'"}
         ]
         self.conv_history = []
         self.completion = None
         self.chat_response = None
-        self.html = None
+        self.phrase_list = []
 
     def get_answer(self):
-       for input_message in self.input_messages:
+        print("="*80, "\ngpt-3.5-turbo is generating an answer...")
+        for input_message in self.input_messages:
           self.conv_history.append(input_message)
           self.completion = openai.ChatCompletion.create(
               model="gpt-3.5-turbo",
               messages=self.conv_history
               )
-          print(f"input_message is: \n{input_message['content']}\n", "="*80)
+          #print(f"input_message is: \n{input_message['content']}\n", "="*80)
           self.chat_response = self.completion.choices[0].message.content
-          print(f"chat_reponse is: \n{self.chat_response}\n", "="*80)
+          #print(f"chat_reponse is: \n{self.chat_response}\n", "="*80)
           self.conv_history.append({"role": "assistant", "content": self.chat_response})
-       self.phrase_list = self.conv_history[-1]["content"]
-       return self.phrase_list
-    #the final output of this function should be two lists.
+        self.answer = self.conv_history[-1]["content"]
+        print(self.answer)
+        return self.answer
+    
+    #need to extract only [] part from the response
+    def get_phrases(self):
+        #output is overlapped with "" in a list
+        self.phrase_list_dq = re.findall(r'\[(.*?)\]', self.get_answer(), re.DOTALL)
+        self.phrase_list_dq = '"""' + self.phrase_list_dq[0] + '"""'
+        print("="*80, "\n", self.phrase_list_dq)
+        self.phrase_items = self.phrase_list_dq.replace('"', "").replace('\n', "")
+        self.phrase_list = "[" + self.phrase_items + "]"
+        print("="*80, "\n", self.phrase_list)
+        return self.phrase_list
 
 if __name__ == "__main__":
     #need to add a script
@@ -116,6 +129,5 @@ than what they weren’t,the Middle Ages became
 a ground for dueling ideas—fueling more fantasy than fact.
     """
     gpt = Gpt(script=script)
-    phrase_list = gpt.get_answer()[0]
-    meaning_list = gpt.get_answer()[1]
+    phrase_list = gpt.get_phrases()
     print(phrase_list)
