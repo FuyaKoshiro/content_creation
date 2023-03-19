@@ -8,6 +8,7 @@ class Translator:
 
     def translate(self):
         for item in self.phrase_list:
+            print(item)
             response = self.translator.translate_text(item, target_lang="JA")
             translated_item = response.text
             self.meaning_list.append(translated_item)
