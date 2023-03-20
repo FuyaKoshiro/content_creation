@@ -21,7 +21,6 @@ if __name__ == "__main__":
 
         gpt = Gpt(script=script)
         phrase_list = gpt.get_phrases()
-        print(f"phrase_list is {phrase_list}.")
 
 #add translator
         tl = Translator(phrase_list=phrase_list)

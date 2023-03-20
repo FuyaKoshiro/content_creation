@@ -46,18 +46,34 @@ class Gpt:
           #print(f"chat_reponse is: \n{self.chat_response}\n", "="*80)
           self.conv_history.append({"role": "assistant", "content": self.chat_response})
         self.answer = self.conv_history[-1]["content"]
-        print(self.answer)
+        print("="*80, f"\nself.answer is :{self.answer}\n")
         return self.answer
     
     #need to extract only [] part from the response
     def get_phrases(self):
         #output is overlapped with "" in a list
         self.phrase_list_dq = re.findall(r'\[(.*?)\]', self.get_answer(), re.DOTALL)
-        self.phrase_list_dq = '"""' + self.phrase_list_dq[0] + '"""'
-        print("="*80, "\n", self.phrase_list_dq)
-        self.phrase_items = self.phrase_list_dq.replace('"', "").replace('\n', "")
-        self.phrase_list = "[" + self.phrase_items + "]"
-        print("="*80, "\n", self.phrase_list)
+        self.phrase_list_dq = '"""' + self.phrase_list_dq[0] + '"""' #output is either "value1", "value2",... or 'value1', 'value2',...
+        print("="*80, f"\nself.phrase_list_dq: {self.phrase_list_dq}\n")
+
+        #need to split by "" or '' and put them into a list
+        #how to tell if each item is wrapped by either "" or ''? -> get the one with larger number of items in the list
+        # Use a regular expression to match quoted substrings
+        pattern_double = re.compile(r'"(.*?)"')
+        # Use the pattern to extract the quoted substrings
+        phrase_items_double = pattern_double.findall(self.phrase_list_dq)
+
+        pattern_single = re.compile(r"'(.*?)'")
+        phrase_items_single = pattern_single.findall(self.phrase_list_dq)
+
+        if len(phrase_items_double) > len(phrase_items_single):
+            self.phrase_list = phrase_items_double
+        elif len(phrase_items_double) < len(phrase_items_single):
+            self.phrase_list = phrase_items_single
+        else:
+            print("self.phrase_items_single and self.phrase_items_double has the same length")
+
+        print("="*80, f"\nself.phrase_list: {self.phrase_list} \nobject type of self.phrase_list: {type(self.phrase_list)}")
         return self.phrase_list
 
 if __name__ == "__main__":
