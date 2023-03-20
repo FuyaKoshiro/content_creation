@@ -1,24 +1,22 @@
-#create a database
+#create a database which containes titles and video codes.
 
 import sqlite3
 
-conn = sqlite3.connect('test_database') 
+conn = sqlite3.connect('db.sqlite3') 
 c = conn.cursor()
 
 c.execute('''
-          CREATE TABLE IF NOT EXISTS products
-          ([product_id] INTEGER PRIMARY KEY, [product_name] TEXT, [price] INTEGER)
+          CREATE TABLE video_db
+          ([video_code] TEXT PRIMARY KEY, [video_title] TEXT)
           ''')
           
 c.execute('''
-          INSERT INTO products (product_id, product_name, price)
+          INSERT INTO video_db (video_code, video_title)
 
                 VALUES
-                (1,'Computer',800),
-                (2,'Printer',200),
-                (3,'Tablet',300),
-                (4,'Desk',450),
-                (5,'Chair',150)
+                ("X7xOEez75B0", "What would happen if you lost your sense of touch? - Antonio Cataldo"),
+                ("test_vcode1", "test_vtitle1"),
+                ("test_vdode2", "test_vtitle2")
           ''')                     
 
 conn.commit()
