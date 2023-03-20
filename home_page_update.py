@@ -2,8 +2,8 @@
 
 class UpdateHome:
       
-     def __init__(self, vtitle_list_all):
-        self.vtitle_list_all = vtitle_list_all
+     def __init__(self, df):
+        self.vtitle_list_all = df["vtitle"]
         self.html_option_row = ""
         self.html = ""
            

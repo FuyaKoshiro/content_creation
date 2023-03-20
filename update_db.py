@@ -1,8 +1,6 @@
 # insert the newly added videos' data into the database
 
 import sqlite3
-import pandas as pd
-
 
 class UpdateDB:
     def __init__(self, vcode_list, vtitle_list):

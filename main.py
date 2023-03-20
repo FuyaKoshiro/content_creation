@@ -3,6 +3,9 @@ from script import Script
 from gpt import Gpt
 from translator import Translator
 from html_page import Html
+from update_db import UpdateDB
+from extract_db import ExtractDB
+from home_page_update import UpdateHome
 
 import time
 
@@ -14,6 +17,7 @@ if __name__ == "__main__":
     for i in range(len(vcode_list)):
         
         vcode = vcode_list[i]
+        vtitle = vtitle_list[i]
 
         s = Script(vcode=vcode)
         script = s.get_script_string()
@@ -29,9 +33,20 @@ if __name__ == "__main__":
         print(f"meaning_list is {meaning_list}.")
 
 #need to update te words
-        h = Html(phrase_list=phrase_list, meaning_list=meaning_list, vcode=vcode_list[i], v_title=vtitle_list[i])
+        h = Html(phrase_list=phrase_list, meaning_list=meaning_list, vcode=vcode, v_title=vtitle)
         h.make_page()
 
-        time.sleep(5)
+    #add new videos' data to database
+    udb = UpdateDB(vcode_list, vtitle_list)
+    udb.insert_value()
+    udb.check_progress()
+
+    edb = ExtractDB()
+    df = edb.get_df()
+
+    #add home page updator
+    uh = UpdateHome(df)
+
+    time.sleep(5)
 
     print("done")

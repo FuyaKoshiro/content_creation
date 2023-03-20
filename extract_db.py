@@ -10,7 +10,7 @@ class ExtractDB:
         self.c = self.conn.cursor()
         self.df = None
 
-    def get_vtitle(self):
+    def get_df(self):
         self.c.execute("SELECT video_code, video_title FROM video_db")
         self.df = pd.DataFrame(self.c.fetchall(), columns=["vcode", "vtitle"])
         print(self.df)
@@ -18,4 +18,4 @@ class ExtractDB:
 
 if __name__ == "__main__":
     edb = ExtractDB()
-    df = edb.get_vtitle()
+    df = edb.get_df()

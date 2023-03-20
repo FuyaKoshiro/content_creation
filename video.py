@@ -9,7 +9,7 @@ class GetVideo:
         self.vcode_list = []
         self.vtitle_list = []
         #get the video objects in the channel
-        self.response_list = scrapetube.get_channel(channel_url=self.channel_url, limit=2) #10 is just for a test
+        self.response_list = scrapetube.get_channel(channel_url=self.channel_url, limit=1) #10 is just for a test
 
     def get_vcode(self):
         for response in self.response_list:
