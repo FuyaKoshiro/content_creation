@@ -3,21 +3,19 @@
 import sqlite3
 
 class UpdateDB:
-    def __init__(self, vcode_list, vtitle_list):
-        self.vcode_list = vcode_list
-        self.vtitle_list = vtitle_list
+    def __init__(self, vcode, vtitle):
+        self.vcode = vcode
+        self.vtitle = vtitle
         self.conn = sqlite3.connect("db.sqlite3")
         self.c = self.conn.cursor()
 
     def insert_value(self):
-        for i in range(len(self.vcode_list)):
-            self.c.execute("""
-                            INSERT INTO video_db (video_code, video_title)
+        self.c.execute("""
+                        INSERT INTO video_db (video_code, video_title)
 
-                            VALUES
-                            (?, ?)
-                    """, (self.vcode_list[i], self.vtitle_list[i]))
-
+                        VALUES
+                        (?, ?)
+                """, (self.vcode, self.vtitle))
         self.conn.commit()
     
     def check_progress(self):
@@ -26,8 +24,8 @@ class UpdateDB:
         print(f"the number of rows in the database: {result}")
 
 if __name__ == "__main__":
-    vcode_list = ["vcode1", "vcode2"]
-    vtitle_list = ["vtitle1", "vtitle2"]
-    udb = UpdateDB(vcode_list, vtitle_list)
+    vcode = "vcode1"
+    vtitle = "vtitle1"
+    udb = UpdateDB(vcode, vtitle)
     udb.insert_value()
     udb.check_progress()

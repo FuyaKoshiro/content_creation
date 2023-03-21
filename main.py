@@ -2,7 +2,7 @@ from video  import GetVideo
 from script import Script
 from gpt import Gpt
 from fix import Fix
-from translator import Translator
+from translator.translator_deepl import Translator
 from html_page import Html
 from update_db import UpdateDB
 from extract_db import ExtractDB
@@ -31,17 +31,17 @@ if __name__ == "__main__":
         phrase_list = fix.fix_phrase_list()
 
         #add translator
-        tl = Translator(phrase_list=phrase_list)
-        meaning_list = tl.translate()
+        gt = Translator(phrase_list=phrase_list)
+        meaning_list = gt.translate()
 
         #need to update te words
         h = Html(phrase_list=phrase_list, meaning_list=meaning_list, vcode=vcode, v_title=vtitle)
         h.make_page()
 
-    #add new videos' data to database
-    udb = UpdateDB(vcode_list, vtitle_list)
-    udb.insert_value()
-    udb.check_progress()
+        #add new videos' data to database
+        udb = UpdateDB(vcode, vtitle)
+        udb.insert_value()
+        udb.check_progress()
 
     edb = ExtractDB()
     df = edb.get_df()
