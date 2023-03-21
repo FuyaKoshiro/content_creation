@@ -1,4 +1,5 @@
 #update the home.index corresponding to the update of the drop down menu.
+import pandas as pd
 
 class UpdateHome:
       
@@ -19,6 +20,12 @@ class UpdateHome:
         self.f.close()
 
 if __name__ == "__main__":
-    vtitle_list_all = ["What would happen if you lost your sense of touch? - Antonio Cataldo", "title1", "title2"]
-    uh = UpdateHome(vtitle_list_all)
+    df = pd.DataFrame(columns=["vcode", "vtitle"])
+    print("-"*80, "\n", df)
+    df_to_append = pd.DataFrame(columns=["vcode", "vtitle"], data=[["test_vcode1", "test_vtitle1"], ["test_vcode1", "test_vtitle2"]])
+    print("-"*80, "\n", df_to_append)
+    df = df.append(df_to_append, ignore_index = True)
+    print("-"*80, "\n", df)
+    uh = UpdateHome(df)
+    print("-"*80, "\n", f"extracted vtitle of the dataframe: \n{uh.vtitle_list_all}\nthe data type: {type(uh.vtitle_list_all)}")
     uh.make_page()

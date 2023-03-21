@@ -21,9 +21,7 @@ class UpdateDB:
         self.conn.commit()
     
     def check_progress(self):
-        result = self.c.execute("""
-        SELECT count(video_code) FROM video_db
-        """)
+        self.c.execute("SELECT count(video_code) FROM video_db")
         result = self.c.fetchall()[0][0]
         print(f"the number of rows in the database: {result}")
 

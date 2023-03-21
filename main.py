@@ -26,13 +26,13 @@ if __name__ == "__main__":
         gpt = Gpt(script=script)
         phrase_list = gpt.get_phrases()
 
-#add translator
+        #add translator
         tl = Translator(phrase_list=phrase_list)
         print("="*80, "\ntranslating...")
         meaning_list = tl.translate()
         print(f"meaning_list is {meaning_list}.")
 
-#need to update te words
+        #need to update te words
         h = Html(phrase_list=phrase_list, meaning_list=meaning_list, vcode=vcode, v_title=vtitle)
         h.make_page()
 
@@ -46,7 +46,8 @@ if __name__ == "__main__":
 
     #add home page updator
     uh = UpdateHome(df)
+    uh.make_page()
 
     time.sleep(5)
 
-    print("done")
+    print("="*80, "\ndone")
