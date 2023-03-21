@@ -42,10 +42,44 @@ class Gpt:
         print("="*80, f"\nself.answer is :{self.answer}\n")
         return self.answer
     
+    def remove_backslash(self):
+        #proorfread first and remove backslash
+        #figure out if the string has a backslash
+        string = self.get_answer()
+        while True:
+            if "\'" in string:
+
+                #get the position (index) of the backslash
+                index = string.index("\'")
+
+                #locate the ' forward
+                index_forward = index
+                while True:
+                    if string[index_forward+2] == "'":
+                        break
+                    else:
+                        index_forward += 1
+
+                #locate the ' backwawrd
+                index_backward = index
+                while True:
+                    if string[index_backward-1] == "'":
+                        break
+                    else:
+                        index_backward -= 1
+                
+                #remove item in between
+                string = string[:index_backward] + string[index_forward+1:]
+            
+            else:
+                break
+        
+        return string
+    
     #need to extract only [] part from the response
     def get_phrases(self):
         #output is overlapped with "" in a list
-        self.phrase_list_dq = re.findall(r'\[(.*?)\]', self.get_answer(), re.DOTALL)
+        self.phrase_list_dq = re.findall(r'\[(.*?)\]', self.remove_backslash(), re.DOTALL)
         self.phrase_list_dq = '"""' + self.phrase_list_dq[0] + '"""' #output is either "value1", "value2",... or 'value1', 'value2',...
         print("="*80, f"\nself.phrase_list_dq: {self.phrase_list_dq}\n")
 
