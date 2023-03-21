@@ -46,33 +46,33 @@ class Gpt:
         #proorfread first and remove backslash
         #figure out if the string has a backslash
         string = self.get_answer()
-        while True:
-            if "\'" in string:
 
-                #get the position (index) of the backslash
-                index = string.index("\'")
+        while "\'s " in string:
 
-                #locate the ' forward
-                index_forward = index
-                while True:
-                    if string[index_forward+2] == "'":
-                        break
-                    else:
-                        index_forward += 1
+            print("a backslash was found")
 
-                #locate the ' backwawrd
-                index_backward = index
-                while True:
-                    if string[index_backward-1] == "'":
-                        break
-                    else:
-                        index_backward -= 1
-                
-                #remove item in between
-                string = string[:index_backward] + string[index_forward+1:]
+            #get the position (index) of the backslash
+            index = string.index("\'")
+            print(f"index of backslash: {index}")
+
+            #locate the ' forward
+            index_forward = index
+            while True:
+                if string[index_forward+2] == "'":
+                    break
+                else:
+                    index_forward += 1
+
+            #locate the ' backwawrd
+            index_backward = index
+            while True:
+                if string[index_backward-1] == "'":
+                    break
+                else:
+                    index_backward -= 1
             
-            else:
-                break
+            #remove item in between
+            string = string[:index_backward] + string[index_forward+1:]
         
         return string
     
