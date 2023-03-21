@@ -4,16 +4,13 @@
 #return the html table component
 
 
-
-#memo
-#python should generate a list of things. and then iterate to add strings as table data
-
 import os
 import openai
 import re
 
 key = "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"
 openai.api_key = key
+
 
 #need to make them into a class to import some variables into another file 
 #need to do a conversation to output two different list in a row 
@@ -22,11 +19,7 @@ class Gpt:
     def __init__(self, script):
         self.script = script
         self.input_messages = [
-            #{"role": "system", "content": "return only python snippets from now."},
             {"role": "user", "content": f"can you make a list of phrases and words that might be hard for non-native English speakers from the script? and make a python list of these phrases and words. \nOutput should look like: \n'phrases_list = ['phrase_1', 'phrase_2',...]' \nthe script is {script}."},
-            #{"role": "user", "content": script},
-            #{"role": "user", "content": "make a python list of these phrases and words. \nOutput should look like: \n'phrases_list = ['phrase_1', 'phrase_2',...]'"},
-            #{"role": "user", "content": "make a python list of the meaning of these phrases and words \nOutput should look like: \n'meaning_list = ['meaning_1', 'meaning_2',...]'"}
         ]
         self.conv_history = []
         self.completion = None

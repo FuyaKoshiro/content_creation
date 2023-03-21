@@ -18,7 +18,7 @@ class Html:
 #add table data, url, and the title of the video
     def add_items(self):
         for i in range(len(self.phrase_list)):
-            self.html_table_row += f'<tr><td>{str(i)}</td> <td>{self.phrase_list[i]}</td> <td>{self.meaning_list[i]}</td></tr>'
+            self.html_table_row += f'<tr><td>{str(i+1)}</td> <td>{self.phrase_list[i]}</td> <td>{self.meaning_list[i]}</td></tr>'
         self.html = f'<!DOCTYPE html> <html> <head> <meta charset="UTF-8"> <title>My Website</title> <link rel="stylesheet" href="/static/css/video.css"> </head> <body> <header> <h1>{self.v_title}</h1> </header> <main> <div class="table-container"> <table> <tr> <th class="header-1">No.</th> <th class="header-2">フレーズ</th> <th class="heaeer-3">意味</th> </tr> {self.html_table_row} </table> </div> <div class="iframe-container"> <iframe width="560" height="315" src="https://www.youtube.com/watch?v={self.vcode}" frameborder="0" allowfullscreen></iframe> </div> </main> <footer> </footer> </body> </html>'
         return self.html
     

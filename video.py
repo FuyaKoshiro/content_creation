@@ -6,11 +6,12 @@ import sqlite3
 
 class GetVideo:
     def __init__(self):
-        self.channel_url = input("input the url of the channel: \n")
+        self.channel_url = input("channel_url: \n")
+        self.num_item_to_add = int(input("num_item_to_add: \n"))
         #get the video objects in the channel
 
     def get_vcode(self):
-        num_item_to_add = 100 #depends on how many items you want to add
+        num_item_to_add = self.num_item_to_add #depends on how many items you want to add
         conn = sqlite3.connect("db.sqlite3")
         c = conn.cursor()
 

@@ -7,11 +7,16 @@ class Translator:
         self.meaning_list = []
 
     def translate(self):
+        print("="*80, "translating...")
         for item in self.phrase_list:
             print(item)
             response = self.translator.translate_text(item, target_lang="JA")
             translated_item = response.text
             self.meaning_list.append(translated_item)
+        print(f"""translate:
+              \nthe length of the phrase_list: {len(self.phrase_list)}
+              \nthe length of the meaning_list: {len(self.meaning_list)}
+            """)
         return self.meaning_list
             
 if __name__ == "__main__":
