@@ -56,7 +56,7 @@ class GetVideo:
         num_not_overlap_list = 0
         num_item_to_add = self.num_new_item
 
-        while self.num_new_item > num_not_overlap_list: #被ってないものの数が、加えるやつより小さかったら、足りてないのでloopから抜けない。
+        while self.num_new_item > num_not_overlap_list:
 
             scrape_vcode_list = self.get_vcode_scrape(num_item_to_add=num_item_to_add)
             db_vcode_list = self.get_vcode_db()
