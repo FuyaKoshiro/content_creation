@@ -1,5 +1,4 @@
-<h1>Automatic Content Creation System</h1>
-<h2>- Powered by GPT-3.5-TURBO -</h2>
+<h1 align="center">Automatic Content Creation System</br>- Powered by GPT-3.5-TURBO -</h1>
 
 
 <h2>Summary</h2>
@@ -27,6 +26,7 @@ Overview of the system looks like this: </br>
 </p>
 
 <h2>Future Perspective</h2>
+<li>Diploy the files on a website</li>
 <li>Personal account which enable users to make their own list of words that they do not know</li>
 <li>Longer video</li>
 <li>Daily phrases from users' own lists based on the forgetting curve theory</li>
