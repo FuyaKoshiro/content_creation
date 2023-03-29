@@ -1,4 +1,5 @@
 #create a database which containes titles and video codes.
+#only for the first time
 
 import sqlite3
 

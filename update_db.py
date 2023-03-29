@@ -1,8 +1,16 @@
-# insert the newly added videos' data into the database
+"""
+==================
+recieve a pair of a video code and video title, and insert it to a database.
+==================
+"""
 
+
+# insert the newly added videos' data into the database
 import sqlite3
 
+
 class UpdateDB:
+
     def __init__(self, vcode, vtitle):
         self.vcode = vcode
         self.vtitle = vtitle

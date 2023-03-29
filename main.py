@@ -1,55 +1,50 @@
-from video  import GetVideo
-from script import Script
-from gpt import Gpt
-from fix import Fix
-from translator.translator_deepl import Translator
-from html_page import Html
+from get_video  import GetVideo
+from get_script import GetScript
+from get_phrase import GetPhrase
+from fix_output import FixOutput
+import translator
+from make_html import MakeHTML
 from update_db import UpdateDB
 from extract_db import ExtractDB
-from home_page_update import UpdateHome
+from update_index_html import UpdateIndexHTML
+
 
 import time
 
+
 if __name__ == "__main__":
-    gv = GetVideo()
-    vcode_list = gv.get_vcode()
-    vtitle_list = gv.get_vtitle()
+    get_video = GetVideo()
+    vcode_list = get_video.get_vcode()
+    vtitle_list = get_video.get_vtitle()
 
     for i in range(len(vcode_list)):
         
         vcode = vcode_list[i]
         vtitle = vtitle_list[i]
 
-        s = Script(vcode=vcode)
-        script = s.get_script_string()
-        vcode = s.vcode
+        get_script= GetScript(vcode=vcode)
+        script = get_script.get_script_string()
 
-        gpt = Gpt(script=script)
-        phrase_list = gpt.get_phrases()
+        get_phrase = GetPhrase(script=script)
+        phrase_list = get_phrase.get_phrase_list()
 
-        fix = Fix(phrase_list=phrase_list)
-        phrase_list = fix.fix_phrase_list()
+        fit_ouput= FixOutput(phrase_list=phrase_list)
+        phrase_list = fit_ouput.fix_phrase_list()
 
-        #add translator
-        gt = Translator(phrase_list=phrase_list)
-        meaning_list = gt.translate()
+        deepl_translator= translator.DeepLTranslator(phrase_list=phrase_list)
+        meaning_list = deepl_translator.translate()
 
-        #need to update te words
-        h = Html(phrase_list=phrase_list, meaning_list=meaning_list, vcode=vcode, v_title=vtitle)
-        h.make_page()
+        make_html = MakeHTML(phrase_list=phrase_list, meaning_list=meaning_list, vcode=vcode, vtitle=vtitle)
+        make_html.make_html_page()
 
-        #add new videos' data to database
-        udb = UpdateDB(vcode, vtitle)
-        udb.insert_value()
-        udb.check_progress()
+        update_db = UpdateDB(vcode=vcode, vtitle=vtitle)
+        update_db.insert_value()
+        update_db.check_progress()
 
-    edb = ExtractDB()
-    df = edb.get_df()
+    extract_db = ExtractDB()
+    df = extract_db.get_df()
 
-    #add home page updator
-    uh = UpdateHome(df)
-    uh.make_page()
-
-    time.sleep(5)
+    updated_index_html = UpdateIndexHTML(df=df)
+    updated_index_html.make_page()
 
     print("="*80, "\ndone")
