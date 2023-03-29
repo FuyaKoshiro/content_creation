@@ -1,6 +1,7 @@
 """
 ==================
 input an url of the YouTube channel that you like to extract script from, and the number of videos.
+You need to provide your own YouTube API key to execute this code.
 ==================
 """
 
@@ -11,77 +12,82 @@ import sqlite3
 
 
 class GetVideo:
-    def get_vcode(self):
+    def __init__(self):
+        self.channel_url = input("channel_url: \n")
+        self.num_new_item = int(input("num_new_item: \n"))
 
-        channel_url = input("channel_url: \n")
-        num_item_to_add = int(input("num_item_to_add: \n"))
+    def get_vcode_scrape(self, num_item_to_add):
+        scrape_object_list = scrapetube.get_channel(channel_url=self.channel_url, limit=num_item_to_add)
+        scrape_vcode_list = []
+        for item in scrape_object_list:
+            scrape_vcode_list.append(item["videoId"])
+        return scrape_vcode_list
+
+    def get_vcode_db(self):
+        conn = sqlite3.connect("db.sqlite3")
+        c = conn.cursor()
+        c.execute("SELECT video_code FROM video_db")
+        db_object_list = c.fetchall()
+        db_vcode_list = []
+        for item in db_object_list:
+            db_vcode_list.append(item[0])
+        return db_vcode_list
+    
+    def get_overlap(self, scrape_vcode_list, db_vcode_list, num_item_to_add):
+        overlap_list = []
+        for i in range(len(scrape_vcode_list)):
+            if scrape_vcode_list[i] in db_vcode_list:
+                overlap_list.append(scrape_vcode_list[i])
+        num_overlap_list = len(overlap_list)
+        num_not_overlap_list = num_item_to_add - num_overlap_list
+        return [overlap_list, num_not_overlap_list]
+    
+    def remove_overlap(self, scrape_vcode_list, overlap_list):
+        for item in scrape_vcode_list:
+            if item in overlap_list:
+                scrape_vcode_list.remove(item)
+        vcode_list = scrape_vcode_list
+        return vcode_list
+        
+    def get_vcode(self):
         conn = sqlite3.connect("db.sqlite3")
         c = conn.cursor()
 
         num_not_overlap_list = 0
+        num_item_to_add = self.num_new_item
 
-        print("="*80)
-        print(f"num_item_to_add: {num_item_to_add}")
-        print(f"limit: {num_item_to_add}")
-        print(f"num_not_overlap_list: {num_not_overlap_list}")
+        while self.num_new_item > num_not_overlap_list: #被ってないものの数が、加えるやつより小さかったら、足りてないのでloopから抜けない。
 
-        while num_item_to_add > num_not_overlap_list:
+            scrape_vcode_list = self.get_vcode_scrape(num_item_to_add=num_item_to_add)
+            db_vcode_list = self.get_vcode_db()
 
-            print(num_item_to_add > num_not_overlap_list)
-            print("="*80)
-            
-            print(f"num_item_to_add: {num_item_to_add}")
+            get_overlap_return = self.get_overlap(scrape_vcode_list, db_vcode_list, num_item_to_add)
+            overlap_list = get_overlap_return[0]
+            num_not_overlap_list = get_overlap_return[1]
 
-            #get response_list
-            print(f"limit: {num_item_to_add}")
-            response_object = scrapetube.get_channel(channel_url=channel_url, limit=num_item_to_add)
-            response_list = []
-            for item in response_object:
-                response_list.append(item["videoId"])
+            print("="*80, f"\nnum_item_to_add: {num_item_to_add}\nnum_not_overlap_list: {num_not_overlap_list}")
 
-            #get db_list
-            c.execute("SELECT video_code FROM video_db")
-            db_object = c.fetchall()
-            db_list = []
-            for item in db_object:
-                db_list.append(item[0])
+            num_item_to_add = num_item_to_add + self.num_new_item - num_not_overlap_list
 
-            #check the number of overlap
-            overlap_list = []
-            for i in range(len(response_list)):
-                if response_list[i] in db_list:
-                    overlap_list.append(response_list[i])
-            num_overlap_list = len(overlap_list)
-            num_not_overlap_list = num_item_to_add - num_overlap_list
-            print(f"num_not_overlap_list: {num_not_overlap_list}")
+        print("="*80, "\nnum_not_overlap_list = num_new_item\nexited the loop")
+        vcode_list = self.remove_overlap(scrape_vcode_list=scrape_vcode_list, overlap_list=overlap_list)
 
-            #set the number for the next iteration
-            num_item_to_add = num_item_to_add + num_item_to_add - num_not_overlap_list
-
-        #get a list of items which don't overlap
-        for item in response_list:
-            if item in overlap_list:
-                response_list.remove(item)
-        not_overlap_list = response_list
-        self.vcode_list = not_overlap_list
-
-        return self.vcode_list
+        return vcode_list
     
-    #the scrapetube does not support getting video title. need to use another api or scrape by myself
-    def get_vtitle(self):
+    def get_vtitle(self, vcode_list):
         api_key = 'AIzaSyCKLts0Rip9Fq9elFG9X2ZwPNVxQLvnfPg'
-        self.youtube = build('youtube', 'v3', developerKey=api_key)
+        youtube = build('youtube', 'v3', developerKey=api_key)
         
         vtitle_list = []
 
-        for vcode in self.vcode_list:
-            response = self.youtube.videos().list(part='snippet',id=vcode).execute()
+        for vcode in vcode_list:
+            response = youtube.videos().list(part='snippet',id=vcode).execute()
             video_title = response['items'][0]['snippet']['title']
             vtitle_list.append(video_title)
         return vtitle_list
 
 if __name__ == "__main__":
-    gv = GetVideo()
-    vcode_list = gv.get_vcode()
-    vtitle_list = gv.get_vtitle()
-    print(f"vcode_list: {vcode_list}\n", "="*80, f"\nvtitle_list: {vtitle_list}")
+    get_video = GetVideo()
+    vcode_list = get_video.get_vcode()
+    vtitle_list = get_video.get_vtitle(vcode_list=vcode_list)
+    print("="*80, f"\nvcode_list: {vcode_list}\n", "="*80, f"\nvtitle_list: {vtitle_list}")
