@@ -15,7 +15,7 @@ import time
 if __name__ == "__main__":
     get_video = GetVideo()
     vcode_list = get_video.get_vcode()
-    vtitle_list = get_video.get_vtitle()
+    vtitle_list = get_video.get_vtitle(vcode_list=vcode_list)
 
     for i in range(len(vcode_list)):
         
@@ -28,8 +28,8 @@ if __name__ == "__main__":
         get_phrase = GetPhrase(script=script)
         phrase_list = get_phrase.get_phrase_list()
 
-        fit_ouput= FixOutput(phrase_list=phrase_list)
-        phrase_list = fit_ouput.fix_phrase_list()
+        fix_ouput= FixOutput(phrase_list=phrase_list)
+        phrase_list = fix_ouput.fix_phrase_list()
 
         deepl_translator= translator.DeepLTranslator(phrase_list=phrase_list)
         meaning_list = deepl_translator.translate()
