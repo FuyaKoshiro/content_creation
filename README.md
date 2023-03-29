@@ -1,4 +1,5 @@
-<h1>Automatic Content Creation System Powered by GPT-3.5-TURBO</h1>
+<h1>Automatic Content Creation System</h1>
+<h2>- Powered by GPT-3.5-TURBO -</h2>
 
 
 <h2>Summary</h2>
