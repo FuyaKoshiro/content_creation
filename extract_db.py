@@ -15,7 +15,7 @@ class ExtractDB:
         conn = sqlite3.connect("db.sqlite3")
         c = conn.cursor()
         c.execute("SELECT video_code, video_title FROM video_db")
-        df = pd.DataFrame(self.c.fetchall(), columns=["vcode", "vtitle"])
+        df = pd.DataFrame(c.fetchall(), columns=["vcode", "vtitle"])
         print(df)
         return df
 

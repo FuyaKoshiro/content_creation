@@ -20,7 +20,6 @@ class MakeHTML:
         for i in range(len(self.phrase_list)):
             html_table_rows += f'<li class="table-row"> <div class="col col-1" data-label="Index">{str(i+1)}</div> <div class="col col-2" data-label="Phrase">{self.phrase_list[i]}</div> <div class="col col-3" data-label="Meaning">{self.meaning_list[i]}</div> </li>'
         html_page = f'<!DOCTYPE html> <html><head> <meta charset="UTF-8"> <title>My Website</title> <link rel="stylesheet" href="/static/css/video.css"> </head><body> <header> <h1>{self.vtitle}</h1> </header> <main> <div class="container"> <ul class="responsive-table"> <li class="table-header"> <div class="col col-1">No.</div> <div class="col col-2">Phrases</div> <div class="col col-3">Meaning</div> </li>{html_table_rows} </ul> </div> <div class="iframe-container"> <iframe width="560" height="315" src="https://www.youtube.com/watch?v={self.vcode}" frameborder="0" allowfullscreen></iframe> </div> </main> <footer> </footer> </body></html>'
-        print(html_table_rows)
         return html_page
     
     def make_html_page(self):

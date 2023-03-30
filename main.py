@@ -28,23 +28,26 @@ if __name__ == "__main__":
         get_phrase = GetPhrase(script=script)
         phrase_list = get_phrase.get_phrase_list()
 
-        fix_ouput= FixOutput(phrase_list=phrase_list)
-        phrase_list = fix_ouput.fix_phrase_list()
+        fix_output= FixOutput(phrase_list=phrase_list)
+        phrase_list = fix_output.fix_phrase_list()
 
-        deepl_translator= translator.DeepLTranslator(phrase_list=phrase_list)
-        meaning_list = deepl_translator.translate()
+        if phrase_list is None: #occasionally fail to pass a value, thus exclude it when it is the case
+            pass
+        
+        else:
+            deepl_translator= translator.DeepLTranslator(phrase_list=phrase_list)
+            meaning_list = deepl_translator.translate()
 
-        make_html = MakeHTML(phrase_list=phrase_list, meaning_list=meaning_list, vcode=vcode, vtitle=vtitle)
-        make_html.make_html_page()
+            make_html = MakeHTML(phrase_list=phrase_list, meaning_list=meaning_list, vcode=vcode, vtitle=vtitle)
+            make_html.make_html_page()
 
-        update_db = UpdateDB(vcode=vcode, vtitle=vtitle)
-        update_db.insert_value()
-        update_db.check_progress()
+            update_db = UpdateDB(vcode=vcode, vtitle=vtitle)
+            update_db.insert_value()
 
     extract_db = ExtractDB()
     df = extract_db.get_df()
 
     updated_index_html = UpdateIndexHTML(df=df)
-    updated_index_html.make_page()
+    updated_index_html.overwrite_page()
 
     print("="*80, "\ndone")

@@ -18,18 +18,17 @@ class UpdateDB:
         self.c = self.conn.cursor()
 
     def insert_value(self):
-        self.c.execute("""
-                        INSERT INTO video_db (video_code, video_title)
+        try:
+            self.c.execute("""
+                            INSERT INTO video_db (video_code, video_title)
 
-                        VALUES
-                        (?, ?)
-                """, (self.vcode, self.vtitle))
-        self.conn.commit()
-    
-    def check_progress(self):
-        self.c.execute("SELECT count(video_code) FROM video_db")
-        result = self.c.fetchall()[0][0]
-        print(f"the number of rows in the database: {result}")
+                            VALUES
+                            (?, ?)
+                    """, (self.vcode, self.vtitle))
+            self.conn.commit()
+        except sqlite3.IntegrityError:
+            print("values already exit in the database")
+
 
 if __name__ == "__main__":
     vcode = "vcode1"
