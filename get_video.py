@@ -75,7 +75,7 @@ class GetVideo:
         return vcode_list
     
     def get_vtitle(self, vcode_list):
-        api_key = 'AIzaSyCKLts0Rip9Fq9elFG9X2ZwPNVxQLvnfPg'
+        api_key = 'YOUR_OWN_API_KEY'
         youtube = build('youtube', 'v3', developerKey=api_key)
         
         vtitle_list = []

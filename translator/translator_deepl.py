@@ -12,7 +12,7 @@ import deepl
 class DeepLTranslator:
 
     def __init__(self, phrase_list):
-        self.translator = deepl.Translator(auth_key="17564543-319e-0393-2a2b-fae6158b5598:fx")
+        self.translator = deepl.Translator(auth_key="YOUR_OWN_API_KEY")
         self.phrase_list = phrase_list
 
     def translate(self):

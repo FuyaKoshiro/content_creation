@@ -11,7 +11,7 @@ import openai
 import re
 
 
-openai.api_key = "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"
+openai.api_key = "YOUR_OWN_API_KEY"
 
 
 # need to make them into a class to import some variables into another file
