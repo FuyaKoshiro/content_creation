@@ -22,7 +22,7 @@ So by using GPT-3.5-turbo model API (ChatGPT) and coding, I thought I could auto
 Overview of the system looks like this: </br>
 <br>
 <p align="center">
-  <img src="https://user-images.githubusercontent.com/108311122/228447455-2c88df70-8fe3-4d60-b8e8-9cc4e99b82dd.png" />
+  <img width="718" alt="Screenshot 2023-04-18 at 8 05 01 PM" src="https://user-images.githubusercontent.com/108311122/232956999-d1cc99f5-c625-484c-b2ba-05da2f58ad4c.png">
 </p>
 
 <h2>Future Perspective</h2>
