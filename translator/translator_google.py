@@ -9,7 +9,7 @@ class GoogleTranslator:
     def translate(self):
 
         meaning_list = []
-        api_key = "AIzaSyCabJFNQnu2BgOMo6Jwkp7wAYnzwa8JTo4"
+        api_key = "YOUR_OWN_KEY"
 
         translate_client = translate.Client(credentials=api_key)
 
