@@ -8,6 +8,8 @@ You need to provide your own API key to execute this code.
 import openai
 from get_phrase import GetPhrase
 
+openai.api_key = "YOUR_OWN_API_KEY"
+
 class gptTranslator:
     def __init__(self, phrase_list) -> None:
         self.phrase_list = phrase_list
