@@ -3,7 +3,7 @@
 
 <h2>Summary</h2>
 Select a YouTube channel and go.<br>
-This program return HTML files having lists of English phrases that might be difficult for non-native speakers to understand.<br>
+This program updates a database of lists of English phrases that might be difficult for non-native speakers to understand.<br>
 
 <h2>Background of the Project - Problem</h2>
 As a non-native English speaker, I have encoutered tons of unfamilier terminologies when I have watched videos.<br>
@@ -26,7 +26,7 @@ Overview of the system looks like this: </br>
 </p>
 
 <h2>Future Perspective</h2>
-<li>Diploy the files on a website</li>
+<li>Deploy the files on a website</li>
 <li>Personal account which enable users to make their own list of words that they do not know</li>
 <li>Longer video</li>
 <li>Daily phrases from users' own lists based on the forgetting curve theory</li>
