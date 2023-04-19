@@ -82,10 +82,7 @@ class GetPhrase:
         return answer_bs_removed
     
     #need to extract only [] part from the response
-    def get_phrase_list(self):
-        answer = self.get_answer()
-        answer_bs_removed = self.remove_backslash(answer=answer)
-
+    def get_phrase_list(self, answer_bs_removed):
         #extract a string within []
         cut_string_list = re.findall(r'\[(.*?)\]', answer_bs_removed, re.DOTALL)
         phrase_list_string = '"""' + cut_string_list[0] + '"""'

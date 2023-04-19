@@ -3,13 +3,7 @@ from get_script import GetScript
 from get_phrase import GetPhrase
 from fix_output import FixOutput
 import translator
-from make_html import MakeHTML
 from update_db import UpdateDB
-from extract_db import ExtractDB
-from update_index_html import UpdateIndexHTML
-
-
-import time
 
 
 if __name__ == "__main__":
@@ -26,7 +20,9 @@ if __name__ == "__main__":
         script = get_script.get_script_string()
 
         get_phrase = GetPhrase(script=script)
-        phrase_list = get_phrase.get_phrase_list()
+        answer = get_phrase.get_answer()
+        answer_bs_removed = get_phrase.remove_backslash(answer=answer)
+        phrase_list = get_phrase.get_phrase_list(answer_bs_removed=answer_bs_removed)
 
         fix_output= FixOutput(phrase_list=phrase_list)
         phrase_list = fix_output.fix_phrase_list()
@@ -35,19 +31,11 @@ if __name__ == "__main__":
             pass
         
         else:
-            deepl_translator= translator.DeepLTranslator(phrase_list=phrase_list)
-            meaning_list = deepl_translator.translate()
+            gpt_translator= translator.gptTranslator(phrase_list=phrase_list)
+            meaning_list = gpt_translator.translate()
 
-            make_html = MakeHTML(phrase_list=phrase_list, meaning_list=meaning_list, vcode=vcode, vtitle=vtitle)
-            make_html.make_html_page()
-
-            update_db = UpdateDB(vcode=vcode, vtitle=vtitle)
-            update_db.insert_value()
-
-    extract_db = ExtractDB()
-    df = extract_db.get_df()
-
-    updated_index_html = UpdateIndexHTML(df=df)
-    updated_index_html.overwrite_page()
+            update_db = UpdateDB(vcode=vcode, vtitle=vtitle, phrase_list=phrase_list, meaning_list=meaning_list, vcode=vcode, vtitle=vtitle)
+            update_db.insert_value_video()
+            update_db.insert_value_video_vcode()
 
     print("="*80, "\ndone")
