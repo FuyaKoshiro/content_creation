@@ -24,9 +24,9 @@ class GetVideo:
         return scrape_vcode_list
 
     def get_vcode_db(self):
-        conn = sqlite3.connect("db.sqlite3")
+        conn = sqlite3.connect("database.db")
         c = conn.cursor()
-        c.execute("SELECT video_code FROM video_db")
+        c.execute("SELECT video_code FROM videos")
         db_object_list = c.fetchall()
         db_vcode_list = []
         for item in db_object_list:
@@ -50,7 +50,7 @@ class GetVideo:
         return vcode_list
         
     def get_vcode(self):
-        conn = sqlite3.connect("db.sqlite3")
+        conn = sqlite3.connect("database.db")
         c = conn.cursor()
 
         num_not_overlap_list = 0
